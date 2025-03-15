@@ -6,7 +6,7 @@ Si la fruta no figura en el listado de precios, debe imprimir un mensaje que lo 
 
 import csv
 
-PRICES_LIST = "./data/precios.csv"
+PRICES_LIST = '../Data/precios.csv'
 
 
 def search_price(product):
