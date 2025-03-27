@@ -21,7 +21,8 @@ for c in cadena:
         case 'u':
             capadepenapa += c + 'pu'
             continue
-    capadepenapa += c
+        case _:
+            capadepenapa += c
 
 print(capadepenapa)
 
