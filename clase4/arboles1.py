@@ -10,8 +10,7 @@ def main():
     except ValueError as e:
         print(e)
         return
-    except TypeError:
-        print("Falta argumento 'parque'")
+
 
     print("Cantidad de arboles:\n", len(df))
 
