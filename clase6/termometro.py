@@ -1,32 +1,38 @@
 import random
+import numpy as np
 
-N = 11
+N = 999
 
 
 def medir_temp(n):
     temp = 37.5
-    mediciones = []
-    for _ in range(n):
+    mediciones = np.repeat(temp, n)
+    for i in range(n):
         error = random.normalvariate(0, 0.2)
-        mediciones.append(round(error + temp,1))
-    return mediciones
+        mediciones[i] = round(temp + error, 1)
 
-def resumen_temp(n):
-    n.sort()
-    temp_min = min(n)
-    temp_max = max(n)
-    temp_prom = round(sum(n) / len(n), 1)
-    q1 = n[(len(n)//4)]
-    q3 = n[3*(len(n)//4)]
+    np.save("../Data/temperaturas", mediciones)
+    return np.sort(mediciones)
+
+
+def resumen_temp(mediciones):
+    temp_min = np.min(mediciones)
+    temp_max = np.max(mediciones)
+    temp_prom = round(np.mean(mediciones),1)
+    temp_median = np.median(mediciones)
+    q1 = mediciones[(mediciones.size // 4)]
+    q3 = mediciones[(3 * (mediciones.size // 4))]
     
-    if len(n) % 2 == 0:
-        valor1 = len(n) // 2
-        valor2 = valor1 - 1
-        temp_median = (n[valor1] + n[valor2]) / 2
-    else:
-        temp_median = n[len(n) // 2]
-    
-    return (temp_min, temp_max, temp_prom, temp_median,q1,q3)
+    return (temp_min, temp_max, temp_prom, temp_median, q1, q3)
 
-print(resumen_temp(medir_temp(N)))
 
+
+resumen = resumen_temp(medir_temp(N))
+print(f'''
+Resumen de un total de {N} temperaturas con un desvio estandar de 0.2:
+T min: {resumen[0]}
+T max: {resumen[1]}
+T promedio: {resumen[2]}
+T mediana: {resumen[3]}
+Primer quartil: {resumen[4]}
+Tercer quartil: {resumen[5]}''')
